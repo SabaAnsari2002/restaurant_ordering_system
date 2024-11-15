@@ -14,7 +14,7 @@ $config = [
     'components' => [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
-            'cookieValidationKey' => '8RP17_huG_NYJRv6odtQDQnvyYtzH_to',
+            'cookieValidationKey' => 'Eo4B4pWvf5l0o_FwtzCd0QseFJKFUFJE',
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
@@ -23,6 +23,13 @@ $config = [
             'identityClass' => 'app\models\User',
             'enableAutoLogin' => true,
         ],
+        'assetManager' => [
+        'bundles' => [
+            'yii\bootstrap4\BootstrapAsset' => [
+                'css' => [], // Use this if you want to load your own Bootstrap styles
+            ],
+        ],
+    ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
