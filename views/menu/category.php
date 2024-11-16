@@ -3,7 +3,10 @@ use yii\helpers\Html;
 
 $this->title = 'Restaurants in ' . Html::encode($category);
 ?>
-
+<div class="text-center my-4">
+    <!-- Link to view-cart action in cart controller -->
+    <?= Html::a('Go Shopping', ['cart/view-cart'], ['class' => 'btn btn-primary btn-lg']) ?>
+</div>
 <div class="container my-5">
     <div class="text-center mb-4">
         <h1 class="display-5">Restaurants Offering <span class="text-primary"><?= Html::encode($category) ?></span></h1>

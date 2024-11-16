@@ -46,21 +46,27 @@ class RestaurantController extends Controller
 
         return $this->render('view', ['restaurant' => $restaurant, 'menus' => $menus]);
     }
-
     public function actionAddMenu($id)
-    {
-        $restaurant = $this->findModel($id);
-        $categories = json_decode($restaurant->categories, true);
+{
+    $restaurant = $this->findModel($id);
+    $categories = json_decode($restaurant->categories, true);
 
-        $menu = new Menu();
-        $menu->restaurant_id = $id;
+    // ایجاد یک شیء Menu جدید
+    $menu = new Menu();
+    $menu->restaurant_id = $id;
 
-        if ($menu->load(Yii::$app->request->post()) && $menu->save()) {
-            return $this->redirect(['view', 'id' => $id]);
+    // اگر داده‌ها از فرم بارگذاری شده باشند و عملیات ذخیره موفقیت‌آمیز باشد
+    if ($menu->load(Yii::$app->request->post())) {
+        // در اینجا ذخیره می‌شود
+        if ($menu->save()) {
+            // پس از ذخیره، به صفحه قبلی برمی‌گردیم و داده‌های جدید نمایش داده می‌شوند
+            return $this->redirect(['view', 'id' => $restaurant->id]);
         }
-
-        return $this->render('add-menu', ['menu' => $menu, 'categories' => $categories]);
     }
+
+    return $this->render('add-menu', ['menu' => $menu, 'categories' => $categories]);
+}
+
 
     protected function findModel($id)
     {
@@ -116,20 +122,32 @@ class RestaurantController extends Controller
 
         return $this->redirect(['view', 'id' => $restaurantId]);
     }
+
     public function actionEditMenu($id, $menu_id)
-{
-    $menu = Menu::findOne($menu_id);
+    {
+        $menu = Menu::findOne($menu_id);
 
-    // Use the 'restaurant' relation method to get the associated restaurant
-    $categories = json_decode($menu->restaurant->categories, true);
+        if (!$menu) {
+            throw new NotFoundHttpException('The requested menu item does not exist.');
+        }
 
-    if ($menu->load(Yii::$app->request->post()) && $menu->save()) {
-        return $this->redirect(['view', 'id' => $menu->restaurant_id]);
+        // Use the 'restaurant' relation method to get the associated restaurant
+        $restaurant = $menu->restaurant;
+        $categories = json_decode($restaurant->categories, true);
+
+        if ($menu->load(Yii::$app->request->post()) && $menu->save()) {
+            return $this->redirect(['view', 'id' => $menu->restaurant_id]);
+        }
+
+        return $this->render('edit-menu', ['menu' => $menu, 'categories' => $categories]);
     }
 
-    return $this->render('edit-menu', ['menu' => $menu, 'categories' => $categories]);
-}
-
-    
+    /**
+     * Finds the Restaurant model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return Restaurant the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     
 }
