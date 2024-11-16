@@ -1,8 +1,14 @@
 <?php
 use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = 'View Menu';
 ?>
+
+<div class="text-center my-4">
+    <!-- Link to view-cart action in cart controller -->
+    <?= Html::a('Go Shopping', ['cart/view-cart'], ['class' => 'btn btn-primary btn-lg']) ?>
+</div>
 
 <div class="container my-5">
     <!-- Food Categories Section -->
