@@ -35,8 +35,18 @@ $this->title = $restaurant->name;
                             </p>
                         </div>
                         <div class="card-footer">
-                            <a href="<?= Url::to(['menu/view-menu', 'id' => $menu['id']]) ?>" class="btn btn-primary btn-block">View Details</a>
+                            <?php if ($menu['stock'] > 0): ?>
+                                <a href="<?= Url::to(['cart/add-to-cart', 'menuId' => $menu['id']]) ?>"
+                                    class="btn btn-success btn-block">
+                                    Add to Cart
+                                </a>
+                            <?php else: ?>
+                                <button class="btn btn-secondary btn-block" disabled>Out of Stock</button>
+                            <?php endif; ?>
+                            <a href="<?= Url::to(['menu/view-menu', 'id' => $menu['id']]) ?>"
+                                class="btn btn-primary btn-block">View Details</a>
                         </div>
+
                     </div>
                 </div>
             <?php endforeach; ?>
