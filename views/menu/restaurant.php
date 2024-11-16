@@ -5,6 +5,11 @@ use yii\helpers\Url;
 $this->title = $restaurant->name;
 ?>
 
+<div class="text-center my-4">
+    <!-- Link to view-cart action in cart controller -->
+    <?= Html::a('Go Shopping', ['cart/view-cart'], ['class' => 'btn btn-primary btn-lg']) ?>
+</div>
+
 <div class="container my-5">
     <div class="text-center mb-4">
         <h1 class="display-4"><?= Html::encode($restaurant->name) ?></h1>
