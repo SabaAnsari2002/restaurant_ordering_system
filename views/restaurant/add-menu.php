@@ -8,11 +8,12 @@ $this->title = 'Add Menu Item';
 <h1><?= Html::encode($this->title) ?></h1>
 
 <div class="menu-form">
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($menu, 'name')->textInput() ?>
     <?= $form->field($menu, 'description')->textarea() ?>
-    <?= $form->field($menu, 'price')->textInput() ?>
+    <?= $form->field($menu, 'price')->textInput(['type' => 'number']) ?>
+    <?= $form->field($menu, 'stock')->textInput(['type' => 'number', 'min' => 1]) ?>
 
     <label>Category</label>
     <select name="Menu[category]" class="form-control">

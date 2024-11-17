@@ -50,5 +50,6 @@ foreach ($menus as $menu) {
         <?php endforeach; ?>
     </ul>
 <?php endforeach; ?>
+<?= Html::a('View Orders', ['restaurant/view-orders', 'id' => $restaurant->id], ['class' => 'btn btn-primary']) ?>
 
 <?= Html::a('Add Menu Item', ['restaurant/add-menu', 'id' => $restaurant->id], ['class' => 'btn btn-primary']) ?>
