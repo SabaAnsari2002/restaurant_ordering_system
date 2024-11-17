@@ -17,6 +17,7 @@ $this->title = 'Edit Menu Item: ' . $menu->name;
     <?= $form->field($menu, 'name')->textInput() ?>
     <?= $form->field($menu, 'description')->textarea() ?>
     <?= $form->field($menu, 'price')->textInput() ?>
+    <?= $form->field($menu, 'stock')->textInput(['type' => 'number', 'min' => 1]) ?>
 
     <label>Category</label>
     <select name="Menu[category]" class="form-control">

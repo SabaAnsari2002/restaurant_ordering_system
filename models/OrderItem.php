@@ -20,11 +20,13 @@ class OrderItem extends ActiveRecord
         ];
     }
 
+    // رابطه با مدل Order
     public function getOrder()
     {
         return $this->hasOne(Order::class, ['id' => 'order_id']);
     }
 
+    // رابطه با مدل Menu
     public function getMenu()
     {
         return $this->hasOne(Menu::class, ['id' => 'menu_id']);

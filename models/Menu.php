@@ -35,4 +35,9 @@ class Menu extends ActiveRecord
     {
         return $this->stock > 0;
     }
+
+    public function getRestaurant()
+    {
+        return $this->hasOne(Restaurant::class, ['id' => 'restaurant_id']);
+    }
 }
