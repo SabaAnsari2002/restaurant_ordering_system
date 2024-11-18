@@ -34,5 +34,6 @@ class Order extends ActiveRecord
     {
         return $this->hasMany(OrderItem::class, ['order_id' => 'id']);
     }
+    
 }
 
