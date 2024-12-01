@@ -18,7 +18,10 @@ $this->title = $restaurant->name;
                 <p><strong>Contact:</strong> <?= Html::encode($restaurant->contact_number) ?></p>
                 <p><strong>Address:</strong> <?= Html::encode($restaurant->address) ?></p>
             </div>
+
             <div class="mb-4">
+            <?= Html::a('Create Pizza Order', ['pizza-order/create'], ['class' => 'btn btn-primary']) ?>
+
                 <?= Html::a('Edit Restaurant', ['update', 'id' => $restaurant->id], ['class' => 'btn btn-warning me-2']) ?>
                 <?= Html::a('Delete Restaurant', ['delete', 'id' => $restaurant->id], [
                     'class' => 'btn btn-danger',
@@ -44,7 +47,8 @@ $this->title = $restaurant->name;
                     <ul class="list-group">
                         <?php foreach ($menuItems as $menu): ?>
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <span><?= Html::encode($menu->name) ?> - <strong>$<?= number_format($menu->price, 2) ?></strong></span>
+                                <span><?= Html::encode($menu->name) ?> -
+                                    <strong>$<?= number_format($menu->price, 2) ?></strong></span>
                                 <div>
                                     <?= Html::a('Edit', ['restaurant/edit-menu', 'id' => $restaurant->id, 'menu_id' => $menu->id], ['class' => 'btn btn-warning btn-sm me-2']) ?>
                                     <?= Html::a('Delete', ['restaurant/delete-menu', 'id' => $menu->id], [
