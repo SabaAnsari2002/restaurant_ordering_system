@@ -14,7 +14,6 @@ class PizzaOrderController extends Controller
 
         // بررسی ارسال داده‌ها و ذخیره آنها در دیتابیس
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            // اگر داده‌ها با موفقیت ذخیره شدند
             Yii::$app->session->setFlash('success', 'Order placed successfully!');
             // انتقال به صفحه ویو پس از ثبت سفارش
             return $this->redirect(['view', 'id' => $model->id]);

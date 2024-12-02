@@ -1,3 +1,4 @@
+
 <?php
 
 use yii\db\Migration;
@@ -5,7 +6,7 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%pizza_order}}`.
  */
-class m241201_195926_create_pizza_order_table extends Migration
+class m241202_201902_create_pizza_order_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -20,6 +21,9 @@ class m241201_195926_create_pizza_order_table extends Migration
         ]);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function safeDown()
     {
         $this->dropTable('{{%pizza_order}}');

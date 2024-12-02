@@ -15,7 +15,7 @@ class PizzaOrder extends ActiveRecord
     {
         return [
             [['bread_types', 'sausage_types', 'toppings'], 'required'],
-            [['bread_types', 'sausage_types', 'toppings'], 'string'],
+            [['bread_types', 'sausage_types', 'toppings'], 'safe'], // آرایه را به عنوان داده‌های امن قبول کنید
         ];
     }
 
@@ -23,35 +23,26 @@ class PizzaOrder extends ActiveRecord
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
-            // تبدیل آرایه به رشته برای ذخیره در دیتابیس
             if (is_array($this->bread_types)) {
-                $this->bread_types = implode(',', $this->bread_types); // برای نان‌ها
+                $this->bread_types = implode(',', $this->bread_types);
             }
             if (is_array($this->sausage_types)) {
-                $this->sausage_types = implode(',', $this->sausage_types); // برای سوسیس‌ها
+                $this->sausage_types = implode(',', $this->sausage_types);
             }
             if (is_array($this->toppings)) {
-                $this->toppings = implode(',', $this->toppings); // برای تاپینگ‌ها
+                $this->toppings = implode(',', $this->toppings);
             }
-
             return true;
         }
         return false;
     }
 
     // تبدیل داده‌ها از فرمت سریالی به آرایه
-    public function getBreadTypes()
+    public function afterFind()
     {
-        return explode(',', $this->bread_types);
-    }
-
-    public function getSausageTypes()
-    {
-        return explode(',', $this->sausage_types);
-    }
-
-    public function getToppings()
-    {
-        return explode(',', $this->toppings);
+        parent::afterFind();
+        $this->bread_types = explode(',', $this->bread_types);
+        $this->sausage_types = explode(',', $this->sausage_types);
+        $this->toppings = explode(',', $this->toppings);
     }
 }
