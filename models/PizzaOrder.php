@@ -14,12 +14,13 @@ class PizzaOrder extends ActiveRecord
     public function rules()
     {
         return [
-            [['bread_types', 'sausage_types', 'toppings'], 'required'],
-            [['bread_types', 'sausage_types', 'toppings'], 'safe'], // آرایه را به عنوان داده‌های امن قبول کنید
+            [['bread_types', 'sausage_types', 'toppings', 'restaurant_id'], 'required'],
+            [['bread_types', 'sausage_types', 'toppings'], 'safe'],
+            [['restaurant_id'], 'integer'],
+            [['restaurant_id'], 'exist', 'targetClass' => Restaurant::class, 'targetAttribute' => ['restaurant_id' => 'id']],
         ];
     }
 
-    // ذخیره داده‌ها به فرمت سریالی
     public function beforeSave($insert)
     {
         if (parent::beforeSave($insert)) {
@@ -37,12 +38,16 @@ class PizzaOrder extends ActiveRecord
         return false;
     }
 
-    // تبدیل داده‌ها از فرمت سریالی به آرایه
     public function afterFind()
     {
         parent::afterFind();
         $this->bread_types = explode(',', $this->bread_types);
         $this->sausage_types = explode(',', $this->sausage_types);
         $this->toppings = explode(',', $this->toppings);
+    }
+
+    public function getRestaurant()
+    {
+        return $this->hasOne(Restaurant::class, ['id' => 'restaurant_id']);
     }
 }

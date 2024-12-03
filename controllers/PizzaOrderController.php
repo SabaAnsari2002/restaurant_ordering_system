@@ -4,28 +4,33 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\PizzaOrder;
+use app\models\Restaurant;
 use yii\web\NotFoundHttpException;
 
 class PizzaOrderController extends Controller
 {
-    public function actionCreate()
+    public function actionCreate($restaurant_id)
     {
-        $model = new PizzaOrder();
+        $restaurant = Restaurant::findOne($restaurant_id);
 
-        // بررسی ارسال داده‌ها و ذخیره آنها در دیتابیس
+        if (!$restaurant) {
+            throw new NotFoundHttpException('The requested restaurant does not exist.');
+        }
+
+        $model = new PizzaOrder();
+        $model->restaurant_id = $restaurant_id;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             Yii::$app->session->setFlash('success', 'Order placed successfully!');
-            // انتقال به صفحه ویو پس از ثبت سفارش
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        // اگر فرم ارسال نشده باشد، فرم را نمایش می‌دهیم
         return $this->render('create', [
             'model' => $model,
+            'restaurant' => $restaurant,
         ]);
     }
 
-    // اکشن برای نمایش جزئیات سفارش
     public function actionView($id)
     {
         $model = PizzaOrder::findOne($id);
