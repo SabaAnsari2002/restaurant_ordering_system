@@ -20,7 +20,7 @@ $this->title = $restaurant->name;
             </div>
 
             <div class="mb-4">
-            <?= Html::a('Create Pizza Order', ['pizza-order/create'], ['class' => 'btn btn-primary']) ?>
+            <?= Html::a('Create Pizza Order', ['pizza-order/create', 'restaurant_id' => $restaurant->id], ['class' => 'btn btn-primary']) ?>
 
                 <?= Html::a('Edit Restaurant', ['update', 'id' => $restaurant->id], ['class' => 'btn btn-warning me-2']) ?>
                 <?= Html::a('Delete Restaurant', ['delete', 'id' => $restaurant->id], [

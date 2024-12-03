@@ -5,14 +5,17 @@ use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\PizzaOrder */
+/* @var $restaurant app\models\Restaurant */
 
-$this->title = 'Create Pizza Order';
+$this->title = 'Create Pizza Order for ' . Html::encode($restaurant->name);
 ?>
 
 <div class="pizza-order-create">
     <h1><?= Html::encode($this->title) ?></h1>
 
     <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form->field($model, 'restaurant_id')->hiddenInput()->label(false) ?>
 
     <div class="mb-3">
         <?= $form->field($model, 'bread_types')->checkboxList([
