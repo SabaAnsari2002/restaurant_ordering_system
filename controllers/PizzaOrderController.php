@@ -17,6 +17,9 @@ class PizzaOrderController extends Controller
             throw new NotFoundHttpException('The requested restaurant does not exist.');
         }
 
+        // حذف سفارش قبلی در صورت وجود
+        PizzaOrder::deleteExistingOrder($restaurant_id);
+
         $model = new PizzaOrder();
         $model->restaurant_id = $restaurant_id;
 
