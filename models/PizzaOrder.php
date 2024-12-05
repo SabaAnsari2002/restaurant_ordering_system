@@ -46,6 +46,11 @@ class PizzaOrder extends ActiveRecord
         $this->toppings = explode(',', $this->toppings);
     }
 
+    public static function deleteExistingOrder($restaurant_id)
+    {
+        self::deleteAll(['restaurant_id' => $restaurant_id]);
+    }
+
     public function getRestaurant()
     {
         return $this->hasOne(Restaurant::class, ['id' => 'restaurant_id']);
