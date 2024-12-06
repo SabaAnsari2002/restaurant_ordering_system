@@ -15,5 +15,5 @@ $this->title = 'Order Details';
     <p><strong>Sausage Types:</strong> <?= implode(', ', $model->sausage_types) ?></p>
     <p><strong>Toppings:</strong> <?= implode(', ', $model->toppings) ?></p>
 
-    <?= Html::a('Back to Order Form', ['create'], ['class' => 'btn btn-primary']) ?>
-</div>
+    <?= Html::a('Back to Order Form', ['create', 'restaurant_id' => $model->restaurant_id], ['class' => 'btn btn-primary']) ?>
+    </div>
