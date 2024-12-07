@@ -231,3 +231,35 @@ vendor/bin/codecept run functional,unit --coverage --coverage-html --coverage-xm
 ```
 
 You can see code coverage output under the `tests/_output` directory.
+
+
+
+
+Guide to building an active project:
+
+Please install PHP on your system first.
+To activate PHP, be sure to follow the steps below.
+1. Check the PHP path in the PATH variable
+Press Win + R and type sysdm.cpl and press Enter.
+In the System Properties window, go to the Advan tab and click on Environment Variables.
+In the System Variables section, select Change Path and click Edit.
+Make sure that the path to the folder where you installed PHP (for example, C:\php) is added to the list:
+If the path is not in the list, click New and enter the path.
+If the path is incorrect, correct it.
+Save the changes and close all windows.
+Then extract the project file and place it in the desired path.
+Next, open your wampp or xampp.
+To run the project in the project folder path for example path: F:\project\restaurant_ordering_system
+Open your cmd and run the following command.
+php yii serve
+If you are not very familiar with composer it is because composer is not installed on your system and you can install composer in the project folder path with the following command.
+Install composer
+Then run the command php yii serve to run the project.
+At this point you need to create the project at http://localhost:8080/index.php.
+Now to add the project database to phpmyadmin select your or you can use the following address:
+Localhost/MySQL | phpMyAdmin 5.2.0
+Here you need to create a new database called restaurant_order_system. Then you can add the database tables by importing the sql file which is inside the zip project or you can run the following command inside cmd to add the table projects in the project path.
+php yii migrate
+And then click yes to add the tables of this project to your database.
+Now refresh the page http://localhost:8080/index.php once so that you can see the project.
+Thanks.
