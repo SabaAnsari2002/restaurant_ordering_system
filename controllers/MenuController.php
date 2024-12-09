@@ -5,6 +5,7 @@ use Yii;
 use yii\web\Controller;
 use app\models\Restaurant;
 use app\models\Menu;
+use app\models\PizzaOrder;
 
 class MenuController extends Controller
 {
@@ -36,24 +37,29 @@ class MenuController extends Controller
         ]);
     }
     public function actionRestaurant($id)
-    {
-        $restaurant = Restaurant::findOne($id);
-        if (!$restaurant) {
-            throw new \yii\web\NotFoundHttpException('Restaurant not found.');
-        }
-    
-        // Fetch menus grouped by category
-        $menus = $restaurant->getMenus()->asArray()->all();
-        $menusByCategory = [];
-        
-        foreach ($menus as $menu) {
-            $menusByCategory[$menu['category']][] = $menu;
-        }
-    
-        return $this->render('restaurant', [
-            'restaurant' => $restaurant,
-            'menusByCategory' => $menusByCategory,
-        ]);
+{
+    $restaurant = Restaurant::findOne($id);
+    if (!$restaurant) {
+        throw new \yii\web\NotFoundHttpException('Restaurant not found.');
     }
+
+    // Fetch menus grouped by category
+    $menus = $restaurant->getMenus()->asArray()->all();
+    $menusByCategory = [];
+    
+    foreach ($menus as $menu) {
+        $menusByCategory[$menu['category']][] = $menu;
+    }
+
+    // Check if restaurant has pizza orders
+    $hasPizzaOrder = PizzaOrder::find()->where(['restaurant_id' => $id])->exists();
+
+    return $this->render('restaurant', [
+        'restaurant' => $restaurant,
+        'menusByCategory' => $menusByCategory,
+        'hasPizzaOrder' => $hasPizzaOrder, // Pass to view
+    ]);
+}
+
     
 }

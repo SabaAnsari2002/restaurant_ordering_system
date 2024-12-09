@@ -55,4 +55,5 @@ class PizzaOrder extends ActiveRecord
     {
         return $this->hasOne(Restaurant::class, ['id' => 'restaurant_id']);
     }
+    
 }
