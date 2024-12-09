@@ -28,6 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 <p><strong>Contact:</strong> <?= Html::encode($restaurant->contact_number) ?></p>
             </div>
         </div>
+        <?php if ($hasPizzaOrder): ?>
+    <div class="text-center my-4">
+        <?= Html::a('Go to Order Page', ['pizza-order/view', 'restaurant_id' => $restaurant->id], [
+            'class' => 'btn btn-primary btn-lg'
+        ]) ?>
+    </div>
+<?php endif; ?>
 
         <!-- Menu Section -->
         <h2 class="text-primary mb-4">Menu</h2>

@@ -24,4 +24,10 @@ class Restaurant extends ActiveRecord
     {
         return $this->hasMany(Menu::class, ['restaurant_id' => 'id']);
     }
+
+    public function getPizzaOrders()
+{
+    return $this->hasMany(PizzaOrder::class, ['restaurant_id' => 'id']);
+}
+
 }
