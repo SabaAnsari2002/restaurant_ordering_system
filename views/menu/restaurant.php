@@ -30,9 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         <?php if ($hasPizzaOrder): ?>
     <div class="text-center my-4">
-        <?= Html::a('Go to Order Page', ['pizza-order/view', 'restaurant_id' => $restaurant->id], [
-            'class' => 'btn btn-primary btn-lg'
-        ]) ?>
+    <?= Html::a('Go to Menu', ['pizza-order/view-menu', 'restaurant_id' => $restaurant->id], ['class' => 'btn btn-primary']) ?>
+
+        
     </div>
 <?php endif; ?>
 
