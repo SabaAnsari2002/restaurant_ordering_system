@@ -1,10 +1,11 @@
+
 <?php
 use yii\db\Migration;
 
 /**
  * Handles the creation of table `{{%pizza_order}}`.
  */
-class m241203_195648_create_pizza_order_table extends Migration
+class m241213_164107_create_pizza_order_table extends Migration
 {
     /**
      * {@inheritdoc}
