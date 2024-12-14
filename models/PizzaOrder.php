@@ -14,9 +14,10 @@ class PizzaOrder extends ActiveRecord
     public function rules()
     {
         return [
-            [['bread_types', 'sausage_types', 'toppings', 'restaurant_id'], 'required'],
+            [['bread_types', 'sausage_types', 'toppings', 'restaurant_id', 'bread_price', 'sausage_price', 'toppings_price'], 'required'],
             [['bread_types', 'sausage_types', 'toppings'], 'safe'],
             [['restaurant_id'], 'integer'],
+            [['bread_price', 'sausage_price', 'toppings_price'], 'number'],
             [['restaurant_id'], 'exist', 'targetClass' => Restaurant::class, 'targetAttribute' => ['restaurant_id' => 'id']],
         ];
     }
@@ -55,5 +56,4 @@ class PizzaOrder extends ActiveRecord
     {
         return $this->hasOne(Restaurant::class, ['id' => 'restaurant_id']);
     }
-    
 }

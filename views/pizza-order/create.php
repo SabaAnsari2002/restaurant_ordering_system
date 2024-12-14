@@ -74,7 +74,9 @@ $this->title = 'Create Pizza Order for ' . Html::encode($restaurant->name);
                     </div>
 
                     <div class="form-group text-center">
-                        <?= Html::submitButton('<i class="fas fa-pizza-slice"></i> Place Order', ['class' => 'btn btn-success btn-lg px-4']) ?>
+                    <div class="form-group text-center">
+    <?= Html::submitButton('<i class="fas fa-pizza-slice"></i> Place Order', ['class' => 'btn btn-success btn-lg px-4']) ?>
+</div>
                     </div>
 
                     <?php ActiveForm::end(); ?>
