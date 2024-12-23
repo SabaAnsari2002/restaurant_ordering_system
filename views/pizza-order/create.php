@@ -1,5 +1,4 @@
 <?php
-
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -26,11 +25,11 @@ $this->title = 'Create Pizza Order for ' . Html::encode($restaurant->name);
                     <div class="form-group mb-4">
                         <label class="form-label font-weight-bold">Bread Types (Select multiple):</label>
                         <?= $form->field($model, 'bread_types')->checkboxList([
-                            'Neapolitan Crust' => 'Neapolitan Crust',
-                            'Thin Crust' => 'Thin Crust',
-                            'Thick Crust' => 'Thick Crust',
-                            'New York Style' => 'New York Style',
-                            'Chicago Deep Dish' => 'Chicago Deep Dish',
+                            'Neapolitan Crust' => 'Neapolitan Crust ($5)',
+                            'Thin Crust' => 'Thin Crust ($4)',
+                            'Thick Crust' => 'Thick Crust ($6)',
+                            'New York Style' => 'New York Style ($7)',
+                            'Chicago Deep Dish' => 'Chicago Deep Dish ($8)',
                         ], [
                             'class' => 'custom-checkbox-list'
                         ])->label(false) ?>
@@ -39,11 +38,11 @@ $this->title = 'Create Pizza Order for ' . Html::encode($restaurant->name);
                     <div class="form-group mb-4">
                         <label class="form-label font-weight-bold">Sausage Types (Select multiple):</label>
                         <?= $form->field($model, 'sausage_types')->checkboxList([
-                            'Pepperoni' => 'Pepperoni',
-                            'Salami' => 'Salami',
-                            'Italian Sausage' => 'Italian Sausage',
-                            'Ham' => 'Ham',
-                            'Capicola' => 'Capicola',
+                            'Pepperoni' => 'Pepperoni ($3)',
+                            'Salami' => 'Salami ($4)',
+                            'Italian Sausage' => 'Italian Sausage ($5)',
+                            'Ham' => 'Ham ($3.5)',
+                            'Capicola' => 'Capicola ($4.5)',
                         ], [
                             'class' => 'custom-checkbox-list'
                         ])->label(false) ?>
@@ -52,22 +51,22 @@ $this->title = 'Create Pizza Order for ' . Html::encode($restaurant->name);
                     <div class="form-group mb-4">
                         <label class="form-label font-weight-bold">Toppings (Select multiple):</label>
                         <?= $form->field($model, 'toppings')->checkboxList([
-                            'Mozzarella Cheese' => 'Mozzarella Cheese',
-                            'Cheddar Cheese' => 'Cheddar Cheese',
-                            'Parmesan Cheese' => 'Parmesan Cheese',
-                            'Ricotta Cheese' => 'Ricotta Cheese',
-                            'Mushrooms' => 'Mushrooms',
-                            'Olives' => 'Olives',
-                            'Bell Peppers' => 'Bell Peppers',
-                            'Onions' => 'Onions',
-                            'Fresh Basil' => 'Fresh Basil',
-                            'Fresh Tomatoes' => 'Fresh Tomatoes',
-                            'Spinach' => 'Spinach',
-                            'Corn' => 'Corn',
-                            'Garlic ' => 'Garlic ',
-                            'Thyme' => 'Thyme',
-                            'Red Chili Flakes' => 'Red Chili Flakes',
-                            'Paprika Powder' => 'Paprika Powder',
+                            'Mozzarella Cheese' => 'Mozzarella Cheese ($2)',
+                            'Cheddar Cheese' => 'Cheddar Cheese ($2.5)',
+                            'Parmesan Cheese' => 'Parmesan Cheese ($3)',
+                            'Ricotta Cheese' => 'Ricotta Cheese ($2)',
+                            'Mushrooms' => 'Mushrooms ($1.5)',
+                            'Olives' => 'Olives ($1.5)',
+                            'Bell Peppers' => 'Bell Peppers ($1)',
+                            'Onions' => 'Onions ($1)',
+                            'Fresh Basil' => 'Fresh Basil ($0.5)',
+                            'Fresh Tomatoes' => 'Fresh Tomatoes ($1)',
+                            'Spinach' => 'Spinach ($1)',
+                            'Corn' => 'Corn ($1)',
+                            'Garlic' => 'Garlic ($0.5)',
+                            'Thyme' => 'Thyme ($0.5)',
+                            'Red Chili Flakes' => 'Red Chili Flakes ($0.5)',
+                            'Paprika Powder' => 'Paprika Powder ($0.5)',
                         ], [
                             'class' => 'custom-checkbox-list'
                         ])->label(false) ?>
@@ -85,16 +84,26 @@ $this->title = 'Create Pizza Order for ' . Html::encode($restaurant->name);
     </div>
 </div>
 
-<style>
-    .custom-checkbox-list .form-check {
-        margin-bottom: 0.5rem;
-    }
+<script>
+    // Optional: Calculate total price dynamically
+    document.addEventListener('DOMContentLoaded', function () {
+        const checkboxes = document.querySelectorAll('.custom-checkbox-list input[type="checkbox"]');
+        const totalDisplay = document.createElement('div');
+        totalDisplay.classList.add('mt-3', 'text-center');
+        totalDisplay.innerHTML = '<strong>Total Price: $0</strong>';
+        document.querySelector('.card-body').appendChild(totalDisplay);
 
-    .custom-checkbox-list .form-check-input {
-        margin-right: 0.5rem;
-    }
-
-    .form-label {
-        font-size: 1.1rem;
-    }
-</style>
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                let total = 0;
+                checkboxes.forEach(cb => {
+                    if (cb.checked) {
+                        const price = parseFloat(cb.parentElement.innerText.match(/\$(\d+\.?\d*)/)[1]);
+                        total += price;
+                    }
+                });
+                totalDisplay.innerHTML = `<strong>Total Price: $${total.toFixed(2)}</strong>`;
+            });
+        });
+    });
+</script>
