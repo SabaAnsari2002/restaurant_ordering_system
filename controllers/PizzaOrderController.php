@@ -7,6 +7,7 @@ use yii\web\Controller;
 use app\models\PizzaOrder;
 use app\models\Restaurant;
 use app\models\Menu;
+use app\models\MenuItems;
 
 use yii\web\NotFoundHttpException;
 
@@ -44,29 +45,48 @@ class PizzaOrderController extends Controller
      * Action to create or update an order for a specific restaurant.
      */
     public function actionCreate($restaurant_id)
-    {
-        $restaurant = Restaurant::findOne($restaurant_id);
+{
+    $restaurant = Restaurant::findOne($restaurant_id);
 
-        if (!$restaurant) {
-            throw new NotFoundHttpException('The requested restaurant does not exist.');
-        }
-
-        // If an existing order exists, delete it
-        PizzaOrder::deleteAll(['restaurant_id' => $restaurant_id]);
-
-        $model = new PizzaOrder();
-        $model->restaurant_id = $restaurant_id;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Order placed successfully!');
-            return $this->redirect(['view', 'restaurant_id' => $restaurant_id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-            'restaurant' => $restaurant,
-        ]);
+    if (!$restaurant) {
+        throw new NotFoundHttpException('The requested restaurant does not exist.');
     }
+
+    // حذف سفارش‌های قبلی
+    PizzaOrder::deleteAll(['restaurant_id' => $restaurant_id]);
+
+    $model = new PizzaOrder();
+    $model->restaurant_id = $restaurant_id;
+
+    // بارگذاری نان‌ها از دیتابیس
+    $breads = MenuItems::find()
+        ->where(['item_type' => 'bread']) // فرض بر این است که نوع نان‌ها 'bread' است
+        ->all();
+
+    // بارگذاری سوسیس‌ها از دیتابیس
+    $sausages = MenuItems::find()
+        ->where(['item_type' => 'sausage']) // فرض بر این است که نوع سوسیس‌ها 'sausage' است
+        ->all();
+
+    // بارگذاری تاپینگ‌ها از دیتابیس
+    $toppings = MenuItems::find()
+        ->where(['item_type' => 'topping']) // فرض بر این است که نوع تاپینگ‌ها 'topping' است
+        ->all();
+
+    if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        Yii::$app->session->setFlash('success', 'Order placed successfully!');
+        return $this->redirect(['view', 'restaurant_id' => $restaurant_id]);
+    }
+
+    return $this->render('create', [
+        'model' => $model,
+        'restaurant' => $restaurant,
+        'breads' => $breads, // ارسال نان‌ها به ویو
+        'sausages' => $sausages, // ارسال سوسیس‌ها به ویو
+        'toppings' => $toppings, // ارسال تاپینگ‌ها به ویو
+    ]);
+}
+
 
     /**
      * Action to delete an order for a specific restaurant.
@@ -139,11 +159,37 @@ public function actionViewMenu($restaurant_id)
         throw new NotFoundHttpException('No pizza order data found for this restaurant.');
     }
 
+    // بارگذاری قیمت‌های نان‌ها
+    $breads = MenuItems::find()
+        ->where(['item_type' => 'bread'])
+        ->all();
+
+    // بارگذاری قیمت‌های سوسیس‌ها
+    $sausages = MenuItems::find()
+        ->where(['item_type' => 'sausage'])
+        ->all();
+
+    // بارگذاری تاپینگ‌های موجود در سفارش
+    // اطمینان حاصل کنید که toppings یک رشته است
+    $orderedToppings = is_string($pizzaOrder->toppings) ? explode(',', $pizzaOrder->toppings) : [];
+
+    // بارگذاری قیمت‌های تاپینگ‌ها فقط برای مواردی که در سفارش هستند
+    $toppings = MenuItems::find()
+        ->where(['item_type' => 'topping'])
+        ->andWhere(['item_name' => $orderedToppings]) // فیلتر بر اساس تاپینگ‌های موجود در سفارش
+        ->all();
+
     return $this->render('view-menu', [
-        'pizzaOrder' => $pizzaOrder, // Pass pizzaOrder to the view
-        'restaurant' => $restaurant, // Optionally pass restaurant details
+        'pizzaOrder' => $pizzaOrder,
+        'restaurant' => $restaurant,
+        'breads' => $breads, // ارسال نان‌ها به ویو
+        'sausages' => $sausages, // ارسال سوسیس‌ها به ویو
+        'toppings' => $toppings, // ارسال فقط تاپینگ‌های موجود به ویو
     ]);
 }
+
+
+
 
 public function actionDisplaySelection($restaurant_id)
 {

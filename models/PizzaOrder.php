@@ -12,80 +12,40 @@ class PizzaOrder extends ActiveRecord
     }
 
     public function rules()
-{
-    return [
-        [['bread_types', 'sausage_types', 'toppings', 'restaurant_id'], 'required'],
-        [['bread_types', 'sausage_types', 'toppings'], 'safe'],
-        [['restaurant_id'], 'integer'],
-        [['total_price'], 'number'],
-    ];
-}
-
+    {
+        return [
+            [['bread_types', 'sausage_types', 'toppings', 'restaurant_id'], 'required'],
+            [['bread_types', 'sausage_types', 'toppings'], 'safe'],
+            [['restaurant_id'], 'integer'],
+            // حذف قاعده مربوط به total_price
+        ];
+    }
 
     public function beforeSave($insert)
-{
-    if (parent::beforeSave($insert)) {
-        $prices = [
-            'Neapolitan Crust' => 5,
-            'Thin Crust' => 4,
-            'Thick Crust' => 6,
-            'New York Style' => 7,
-            'Chicago Deep Dish' => 8,
-            'Pepperoni' => 3,
-            'Salami' => 4,
-            'Italian Sausage' => 5,
-            'Ham' => 3.5,
-            'Capicola' => 4.5,
-            'Mozzarella Cheese' => 2,
-            'Cheddar Cheese' => 2.5,
-            'Parmesan Cheese' => 3,
-            'Ricotta Cheese' => 2,
-            'Mushrooms' => 1.5,
-            'Olives' => 1.5,
-            'Bell Peppers' => 1,
-            'Onions' => 1,
-            'Fresh Basil' => 0.5,
-            'Fresh Tomatoes' => 1,
-            'Spinach' => 1,
-            'Corn' => 1,
-            'Garlic' => 0.5,
-            'Thyme' => 0.5,
-            'Red Chili Flakes' => 0.5,
-            'Paprika Powder' => 0.5,
-        ];
-
-        $this->total_price = 0;
-
-        if (is_array($this->bread_types)) {
-            foreach ($this->bread_types as $item) {
-                $this->total_price += $prices[$item] ?? 0;
+    {
+        if (parent::beforeSave($insert)) {
+            // فقط تبدیل آرایه‌ها به رشته برای ذخیره‌سازی در دیتابیس
+            if (is_array($this->bread_types)) {
+                $this->bread_types = implode(',', $this->bread_types);
             }
-            $this->bread_types = implode(',', $this->bread_types);
-        }
 
-        if (is_array($this->sausage_types)) {
-            foreach ($this->sausage_types as $item) {
-                $this->total_price += $prices[$item] ?? 0;
+            if (is_array($this->sausage_types)) {
+                $this->sausage_types = implode(',', $this->sausage_types);
             }
-            $this->sausage_types = implode(',', $this->sausage_types);
-        }
 
-        if (is_array($this->toppings)) {
-            foreach ($this->toppings as $item) {
-                $this->total_price += $prices[$item] ?? 0;
+            if (is_array($this->toppings)) {
+                $this->toppings = implode(',', $this->toppings);
             }
-            $this->toppings = implode(',', $this->toppings);
-        }
 
-        return true;
+            return true;
+        }
+        return false;
     }
-    return false;
-}
-
 
     public function afterFind()
     {
         parent::afterFind();
+        // تبدیل رشته‌ها به آرایه بعد از پیدا کردن رکورد
         $this->bread_types = explode(',', $this->bread_types);
         $this->sausage_types = explode(',', $this->sausage_types);
         $this->toppings = explode(',', $this->toppings);
@@ -100,5 +60,4 @@ class PizzaOrder extends ActiveRecord
     {
         return $this->hasOne(Restaurant::class, ['id' => 'restaurant_id']);
     }
-    
 }
