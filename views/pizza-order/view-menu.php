@@ -20,9 +20,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- Bread Types -->
         <div class="my-4">
             <h3>Bread Types</h3>
-            <?php foreach ($pizzaOrder->bread_types as $bread): ?>
+            <?php foreach ($breads as $bread): ?>
                 <div>
-                    <?= Html::checkbox("bread_types[]", false, ['value' => $bread, 'label' => Html::encode($bread)]) ?>
+                    <?= Html::checkbox("bread_types[]", false, [
+                        'value' => $bread->item_name,
+                        'label' => Html::encode($bread->item_name . ' - $' . number_format($bread->price, 2))
+                    ]) ?>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -30,9 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- Sausage Types -->
         <div class="my-4">
             <h3>Sausage Types</h3>
-            <?php foreach ($pizzaOrder->sausage_types as $sausage): ?>
+            <?php foreach ($sausages as $sausage): ?>
                 <div>
-                    <?= Html::checkbox("sausage_types[]", false, ['value' => $sausage, 'label' => Html::encode($sausage)]) ?>
+                    <?= Html::checkbox("sausage_types[]", false, [
+                        'value' => $sausage->item_name,
+                        'label' => Html::encode($sausage->item_name . ' - $' . number_format($sausage->price, 2))
+                    ]) ?>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -40,9 +46,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <!-- Toppings -->
         <div class="my-4">
             <h3>Toppings</h3>
-            <?php foreach ($pizzaOrder->toppings as $topping): ?>
+            <?php foreach ($toppings as $topping): ?>
                 <div>
-                    <?= Html::checkbox("toppings[]", false, ['value' => $topping, 'label' => Html::encode($topping)]) ?>
+                    <?= Html::checkbox("toppings[]", false, [
+                        'value' => $topping->item_name,
+                        'label' => Html::encode($topping->item_name . ' - $' . number_format($topping->price, 2))
+                    ]) ?>
                 </div>
             <?php endforeach; ?>
         </div>
