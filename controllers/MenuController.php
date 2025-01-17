@@ -61,5 +61,17 @@ class MenuController extends Controller
     ]);
 }
 
+public function actionViewMenu($id)
+{
+    $menu = Menu::findOne($id);
+    if (!$menu) {
+        throw new \yii\web\NotFoundHttpException('Menu item not found.');
+    }
+
+    return $this->render('view-menu', [
+        'menu' => $menu,
+    ]);
+}
+
     
 }

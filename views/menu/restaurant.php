@@ -29,12 +29,12 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         </div>
         <?php if ($hasPizzaOrder): ?>
-    <div class="text-center my-4">
-    <?= Html::a('Go to Menu', ['pizza-order/view-menu', 'restaurant_id' => $restaurant->id], ['class' => 'btn btn-primary']) ?>
+            <div class="text-center my-4">
+                <?= Html::a('Go to Menu', ['pizza-order/view-menu', 'restaurant_id' => $restaurant->id], ['class' => 'btn btn-primary']) ?>
 
-        
-    </div>
-<?php endif; ?>
+
+            </div>
+        <?php endif; ?>
 
         <!-- Menu Section -->
         <h2 class="text-primary mb-4">Menu</h2>
